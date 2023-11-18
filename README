@@ -20,3 +20,7 @@ How to run:
     With rust installed navigate to the project directory and run 'cargo run main'.
 
     if you have rust setup and the Cargo.lock and Cargo.toml files as well as the source code then it should compile.
+
+demonstation video:
+    link: https://vimeo.com/885998569
+    password: COMP3005A
