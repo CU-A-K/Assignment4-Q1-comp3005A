@@ -8,20 +8,10 @@ struct Credentials{
 fn main() {
     let mut buf:String=String::new();
     let mut cred=Credentials{user:String::new(),password:String::new()};
-    print!("Username:");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("encounterd an error! error:{e}");
-        return;
-    }
+    if !get_user_input("Username:", &mut buf){return;}
     cred.user.push_str(buf.trim_end());
     buf.clear();
-    print!("password:");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("encounterd an error! error:{e}");
-        return;
-    }
+    if !get_user_input("password:", &mut buf){return;}
     cred.password.push_str(buf.trim_end());
     buf.clear();
     let mut selection;
@@ -31,17 +21,12 @@ fn main() {
                                      "3:update_student_email(student id, new_email)",
                                      "4:delete_student(student id)",
                                      "5:exit");
-        print!("selection:");
-        std::io::stdout().flush().expect("flush failed!");
-        if let Err(e)=stdin().read_line(&mut buf) {
-            eprintln!("encounterd an error! error:{e}");
-            return;
-        }
+        if !get_user_input("selection:", &mut buf){return;}
         selection=buf.trim_end().parse().unwrap_or(0);
         match selection {
             0=>println!("invalid selection!"),
             1=> get_all_students(&cred),
-            2=>add_student(&cred),
+            2=> add_student(&cred),
             5=>{
                 println!("exiting program.");
                 break;
@@ -87,36 +72,16 @@ fn add_student(cli:&Credentials){
     let mut lname:String=String::new();
     let mut email:String=String::new();
     let enroll_date:NaiveDate;
-    print!("First Name:");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("{e}");
-        return;
-    }
+    if !get_user_input("First Name:", &mut buf){return;}
     fname.push_str(buf.trim_end());
     buf.clear();
-    print!("Last Name:");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("{e}");
-        return;
-    }
+    if !get_user_input("Last Name:", &mut buf){return;}
     lname.push_str(buf.trim_end());
     buf.clear();
-    print!("Email:");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("{e}");
-        return;
-    }
+    if !get_user_input("Email:", &mut buf){return;}
     email.push_str(buf.trim_end());
     buf.clear();
-    print!("Enroll Date (yyyy-mm-dd):");
-    std::io::stdout().flush().expect("flush failed!");
-    if let Err(e)=stdin().read_line(&mut buf){
-        eprintln!("{e}");
-        return;
-    }
+    if !get_user_input("Enroll Date (yyyy-mm-dd):", &mut buf){return;}
     match NaiveDate::parse_from_str(buf.trim_end(),"%Y-%m-%d"){
         Ok(p_res)=>{
             enroll_date=p_res.to_owned();
@@ -141,4 +106,13 @@ fn add_student(cli:&Credentials){
         eprintln!("{e}");
         return;
     }
+}
+fn get_user_input(msg:&str,buf:&mut String)-> bool{
+    print!("{msg}");
+    std::io::stdout().flush().expect("flush failed!");
+    if let Err(e)=stdin().read_line(buf){
+        eprintln!("{e}");
+        return false;
+    }
+    return true;
 }
