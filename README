@@ -1,0 +1,22 @@
+DB setup:
+    in a postgreSQL DB create a table "students" with fields:
+
+        student_id: Integer, Primary Key, Auto-increment
+        first_name: Text, Not Null
+        last_name: Text, Not Null
+        email: Text, Not Null, Unique
+        enrollment_date: Date
+    
+    Then use the following statement to generate placeholder data
+
+        INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES
+        ('John', 'Doe', 'john.doe@example.com', '2023-09-01'),
+        ('Jane', 'Smith', 'jane.smith@example.com', '2023-09-01'),
+        ('Jim', 'Beam', 'jim.beam@example.com', '2023-09-02');
+
+How to run:
+    if you do not have rust installed follow the instructions on the page : https://www.rust-lang.org/tools/install
+    
+    With rust installed navigate to the project directory and run 'cargo run main'.
+
+    if you have rust setup and the Cargo.lock and Cargo.toml files as well as the source code then it should compile.
